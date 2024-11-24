@@ -2,14 +2,19 @@ name: "CodeQL Analysis"
 
 on:
   push:
-    branches: [fatima]  # Analyze on pushes to the main branch
+    branches: [fatima]
   pull_request:
-    branches: [fatima]  # Analyze on pull requests to the main branch
+    branches: [fatima]
 
 jobs:
   analyze:
     name: "CodeQL Analysis"
     runs-on: ubuntu-latest
+
+    permissions:  # Add this block
+      actions: read
+      contents: read
+      security-events: write  # Required for uploading SARIF results
 
     steps:
       - name: Checkout repository
@@ -18,7 +23,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
-          languages: 'javascript,python'  # Replace with your project's languages
+          languages: 'javascript,python'
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
