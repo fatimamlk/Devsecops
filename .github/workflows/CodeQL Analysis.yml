@@ -27,3 +27,10 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
+
+      # Upload the SARIF files as artifacts
+      - name: Upload CodeQL results as artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: codeql-results
+          path: /home/runner/work/Devsecops/results/*.sarif
