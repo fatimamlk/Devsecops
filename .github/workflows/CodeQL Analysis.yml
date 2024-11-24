@@ -2,9 +2,9 @@ name: "CodeQL Analysis"
 
 on:
   push:
-    branches: [main]  # Analyze on pushes to the main branch
+    branches: [fatima]  # Analyze on pushes to the main branch
   pull_request:
-    branches: [main]  # Analyze on pull requests to the main branch
+    branches: [fatima]  # Analyze on pull requests to the main branch
 
 jobs:
   analyze:
