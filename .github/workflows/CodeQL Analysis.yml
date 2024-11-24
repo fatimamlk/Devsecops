@@ -1,0 +1,24 @@
+name: "CodeQL Analysis"
+
+on:
+  push:
+    branches: [main]  # Analyze on pushes to the main branch
+  pull_request:
+    branches: [main]  # Analyze on pull requests to the main branch
+
+jobs:
+  analyze:
+    name: "CodeQL Analysis"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'javascript,python'  # Replace with your project's languages
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
