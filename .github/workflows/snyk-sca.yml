@@ -7,35 +7,16 @@ on:
   pull_request:
 
 jobs:
-  snyk-sca:
-    name: Snyk Software Composition Analysis
+  snyk:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository code
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js (for projects with Node dependencies)
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Run Snyk to Check for Vulnerabilities
+        uses: snyk/actions@v4
         with:
-          node-version: 16 # Update based on your project requirements
-
-      # Step 3: Install Snyk CLI (if not using snyk/actions)
-      - name: Install Snyk CLI
-        run: npm install -g snyk
-
-      # Step 4: Authenticate Snyk CLI
-      - name: Authenticate Snyk CLI
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+          args: test
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-      # Step 5: Test dependencies for vulnerabilities
-      - name: Snyk Dependency Test
-        run: snyk test --severity-threshold=medium
-
-      # Step 6: Monitor dependencies for tracking in Snyk dashboard
-      - name: Monitor Project Dependencies
-        run: snyk monitor
+          SNYK_TOKEN: ${{ secrets.GITHUB_TOKEN }}
