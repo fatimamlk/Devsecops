@@ -1,7 +1,6 @@
 name: Snyk SCA Workflow
 
 on:
-  # Trigger the workflow on push to main or pull requests
   push:
     branches:
       - fatima
