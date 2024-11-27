@@ -13,18 +13,13 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@master
 
       - name: Install Dependencies
         run: npm install # Ensure dependencies are installed for the test to work
 
-      - name: Set up Snyk CLI
-        uses: snyk/actions/setup@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-      - name: Run Snyk to check for vulnerabilities and save results
-        run: snyk test --json-file-output=snyk-results.json
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
