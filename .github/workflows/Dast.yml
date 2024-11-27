@@ -5,6 +5,9 @@ on:
     branches:
       - fatima
   pull_request:
+permissions:
+  issues: write
+  contents: write
 
 jobs:
   dast:
