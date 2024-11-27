@@ -1,22 +1,39 @@
 name: Snyk SCA Workflow
 
 on:
+ 
   push:
     branches:
       - fatima
   pull_request:
 
 jobs:
-  snyk:
+  snyk-sca:
+    name: Snyk Software Composition Analysis
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-
-      - name: Run Snyk to Check for Vulnerabilities
-        uses: snyk/actions@v1
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          args: test
+          node-version: 16 # Update based on your project requirements
+
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      # Step 4: Authenticate Snyk CLI
+      - name: Authenticate Snyk CLI
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
         env:
-          SNYK_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      # Step 5: Test dependencies for vulnerabilities
+      - name: Snyk Dependency Test
+        run: snyk test --severity-threshold=medium
+
+      # Step 6: Monitor dependencies for tracking in Snyk dashboard
+      - name: Monitor Project Dependencies
+        run: snyk monitor
