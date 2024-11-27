@@ -10,7 +10,6 @@ jobs:
   snyk-sca:
     name: Snyk Software Composition Analysis
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@master
@@ -22,6 +21,7 @@ jobs:
       - name: Install Dependencies
         run: npm install 
         
+      - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         continue-on-error: true
