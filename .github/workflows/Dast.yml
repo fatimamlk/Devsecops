@@ -3,7 +3,7 @@ name: OWASP ZAP DAST Workflow
 on:
   push:
     branches:
-      - main
+      - fatima
   pull_request:
 
 jobs:
