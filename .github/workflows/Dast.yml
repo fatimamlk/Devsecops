@@ -16,11 +16,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Set up the application (adjust this for your app)
-      - name: Start Application
-        run: |
-          docker-compose up -d
-        # If you use a specific framework or setup, replace this with the commands to start your application.
+      # Step 3: Start the App
+      - name: Start App
+        run: npm start &
+      
       
       # Step 4: Perform ZAP Scan
       - name: ZAP Scan
