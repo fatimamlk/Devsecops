@@ -20,6 +20,9 @@ jobs:
         run: |
           docker run --rm -d --name juice-shop -p 3000:3000 bkimminich/juice-shop
           sleep 15 # Wait for the app to be ready
+          
+      - name: Set Write Permissions for the ZAP Volume
+        run: chmod -R 777 $(pwd)
 
       # Step 2: Pull OWASP ZAP Docker Image and Run the Scan
       - name: Run OWASP ZAP Scan
