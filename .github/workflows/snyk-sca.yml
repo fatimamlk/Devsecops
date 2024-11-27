@@ -15,24 +15,21 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16 # Match your project requirements
-
       - name: Install Dependencies
         run: npm install # Ensure dependencies are installed for the test to work
 
-      - name: Install Snyk CLI
-        run: npm install -g snyk
-
-      - name: Authenticate Snyk CLI
-        run: snyk auth "${{ secrets.SNYK_TOKEN }}"
+      - name: Set up Snyk CLI
+        uses: snyk/actions/setup@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Snyk Dependency Test
-        run: snyk test --severity-threshold=medium
+      - name: Run Snyk to check for vulnerabilities and save results
+        run: snyk test --json-file-output=snyk-results.json
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Monitor Project Dependencies
-        run: snyk monitor
+      - name: Upload Snyk JSON Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: snyk-results
+          path: snyk-results.json
