@@ -1,0 +1,38 @@
+name: OWASP ZAP DAST Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  dast:
+    name: OWASP ZAP DAST
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up the application (adjust this for your app)
+      - name: Start Application
+        run: |
+          docker-compose up -d
+        # If you use a specific framework or setup, replace this with the commands to start your application.
+      
+      # Step 3: Run OWASP ZAP Scan
+      - name: OWASP ZAP Security Scan
+        uses: zaproxy/action-full-scan@v0.7.0
+        with:
+          target: "http://localhost:8080" # Replace with your app's URL
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 4: Upload ZAP Report
+      - name: Upload ZAP Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: zap-report
+          path: owasp-zap-report.html
