@@ -1,0 +1,44 @@
+name: CI/CD with SonarCloud and Security Scans
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  sonarcloud-analysis:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : Checkout du code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Étape 2 : Configure Java pour SonarCloud
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+
+      # Étape 3 : Configure Node.js (si applicable)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      # Étape 4 : Installer les dépendances (si applicable)
+      - name: Install Dependencies
+        run: npm install
+
+      # Étape 5 : Run SonarCloud Scanner
+      - name: Run SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          projectBaseDir: .
+          args: >
+            -Dsonar.projectKey=your_project_key
+            -Dsonar.organization=your_organization
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
