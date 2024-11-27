@@ -1,7 +1,6 @@
 name: Snyk SCA Workflow
 
 on:
- 
   push:
     branches:
       - fatima
@@ -15,25 +14,25 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-        
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16 # Update based on your project requirements
+          node-version: 16 # Match your project requirements
+
+      - name: Install Dependencies
+        run: npm install # Ensure dependencies are installed for the test to work
 
       - name: Install Snyk CLI
         run: npm install -g snyk
 
-      # Step 4: Authenticate Snyk CLI
       - name: Authenticate Snyk CLI
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+        run: snyk auth "${{ secrets.SNYK_TOKEN }}"
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      # Step 5: Test dependencies for vulnerabilities
       - name: Snyk Dependency Test
         run: snyk test --severity-threshold=medium
 
-      # Step 6: Monitor dependencies for tracking in Snyk dashboard
       - name: Monitor Project Dependencies
         run: snyk monitor
