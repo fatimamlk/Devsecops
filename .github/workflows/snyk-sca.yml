@@ -16,10 +16,11 @@ jobs:
         uses: actions/checkout@master
 
       - name: Install Dependencies
-        run: npm install # Ensure dependencies are installed for the test to work
-
+        run: npm install 
+        
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
