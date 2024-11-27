@@ -3,7 +3,7 @@ name: CI/CD with SonarCloud and Security Scans
 on:
   push:
     branches:
-      - main
+      - fatima
   pull_request:
 
 jobs:
